@@ -25,3 +25,30 @@ variable "location" {
   type        = string
   default     = "Western Europe"   # eller overstyr i terraform.tfvars
 }
+
+
+variable "ssh_public_key" {
+  description = "Offentlig SSH-nøkkel for admin-brukeren på VM-en"
+  type        = string
+  # Ikke sensitive: en offentlig nøkkel er ikke en hemmelighet
+}
+
+variable "nsg_rules" {
+  description = "Innkommende regler NSG-en skal generere"
+  type = list(object({
+    name     = string
+    priority = number
+    port     = string
+  }
+  )
+  )
+  default = [
+    { name = "allow_ssh", priority = 100, port = "22" },
+  ]
+}
+
+variable "my_ip" {
+  description = "Din nåværende IP-adresse. Brukes for å begrense SSH-tilgang til VM-en."
+  type        = string
+  default     = "82.164.75.32"
+}
