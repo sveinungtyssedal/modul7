@@ -1,6 +1,7 @@
 variable "student_id" {
   description = "Din unike student-ID. Brukes som prefiks i alle ressursnavn."
   type        = string
+  default     = "042"
   # Ingen default – dette MÅ settes bevisst av hver enkelt student
 
   validation {
@@ -15,7 +16,7 @@ variable "project" {
   default     = "iac"
 
   validation {
-    condition     = length(var.project) <= 10
+    condition     = length(var.project) <= 20
     error_message = "Prosjektnavnet kan ikke være lengre enn 10 tegn."
   }
 }
@@ -23,15 +24,15 @@ variable "project" {
 variable "location" {
   description = "Azure-region for ressursene"
   type        = string
-  default     = "Western Europe"   # eller overstyr i terraform.tfvars
+  default     = "westeurope" # eller overstyr i terraform.tfvars
 }
 
 
-variable "ssh_public_key" {
-  description = "Offentlig SSH-nøkkel for admin-brukeren på VM-en"
-  type        = string
-  # Ikke sensitive: en offentlig nøkkel er ikke en hemmelighet
-}
+# variable "ssh_public_key" {
+#   description = "Offentlig SSH-nøkkel for admin-brukeren på VM-en"
+#   type        = string
+#   # Ikke sensitive: en offentlig nøkkel er ikke en hemmelighet
+# }
 
 variable "nsg_rules" {
   description = "Innkommende regler NSG-en skal generere"
@@ -39,8 +40,8 @@ variable "nsg_rules" {
     name     = string
     priority = number
     port     = string
-  }
-  )
+    }
+    )
   )
   default = [
     { name = "allow_ssh", priority = 100, port = "22" },
@@ -52,3 +53,6 @@ variable "my_ip" {
   type        = string
   default     = "82.164.75.32"
 }
+# variable "resource_group_name" {
+#   type = string
+# }
